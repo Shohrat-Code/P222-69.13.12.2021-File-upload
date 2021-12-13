@@ -1,0 +1,86 @@
+﻿@model VmBlog
+@{
+    ViewData["Title"] = "Blog Index";
+}
+
+<partial name="_BannerPartial" model="Model.Banner" />
+
+<section class="ftco-section ftco-degree-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 ftco-animate">
+                <div class="row">
+                    @foreach (var item in Model.Blogs)
+                    {
+                        <div class="col-md-12 d-flex ftco-animate">
+                            <div class="blog-entry align-self-stretch d-md-flex">
+                                <a href="blog-single.html" class="block-20" style="background-image: url('images/@item.MainImage');">
+                                </a>
+                                <div class="text d-block pl-md-4">
+                                    <div class="meta mb-3">
+                                        <div><a href="#" style="text-transform: capitalize;">@item.CreatedDate.ToString("MMMM dd, yyyy")</a></div>
+                                        <div><a href="#">@item.User.Name</a></div>
+                                        <div><a href="#" class="meta-chat"><span class="icon-chat"></span> @item.Comments.Count</a></div>
+                                    </div>
+                                    <h3 class="heading"><a href="#">@item.Title</a></h3>
+                                    <p>@(item.Content!=null && item.Content.Length>150? item.Content.Substring(0,150) + "..." : item.Content)</p>
+                                    <p><a href="blog-single.html" class="btn btn-primary py-2 px-3">Read more</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-lg-4 sidebar ftco-animate">
+                <div class="sidebar-box">
+                    <form action="#" class="search-form">
+                        <div class="form-group">
+                            <span class="icon ion-ios-search"></span>
+                            <input type="text" class="form-control" placeholder="Search...">
+                        </div>
+                    </form>
+                </div>
+                <div class="sidebar-box ftco-animate">
+                    <h3 class="heading">Categories</h3>
+                    <ul class="categories">
+                        @foreach (var item in Model.BlogCategories)
+                        {
+                            <li><a href="#">@item.Name <span>(@item.Blogs.Count)</span></a></li>
+                        }
+                    </ul>
+                </div>
+                <div class="sidebar-box ftco-animate">
+                    <h3 class="heading">Recent Blog</h3>
+                    @foreach (var item in Model.Blogs.OrderByDescending(o => o.CreatedDate).Take(3))
+                    {
+                        <div class="block-21 mb-4 d-flex">
+                            <a class="blog-img mr-4" style="background-image: url(images/@item.MainImage);"></a>
+                            <div class="text">
+                                <h3 class="heading-1"><a href="#">@item.Title</a></h3>
+                                <div class="meta">
+                                    <div><a href="#"><span class="icon-calendar"></span> @item.CreatedDate.ToString("MMMM dd, yyyy")</a></div>
+                                    <div><a href="#"><span class="icon-person"></span> @item.User.Name</a></div>
+                                    <div><a href="#"><span class="icon-chat"></span> @item.Comments.Count</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="sidebar-box ftco-animate">
+                    <h3 class="heading">Tag Cloud</h3>
+                    <div class="tagcloud">
+                        @foreach (var item in Model.Tags)
+                        {
+                            <a href="#" class="tag-cloud-link">@item.Name</a>
+                        }
+                    </div>
+                </div>
+                <div class="sidebar-box ftco-animate">
+                    <h3 class="heading">Paragraph</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus voluptate quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique, inventore eos fugit cupiditate numquam!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
